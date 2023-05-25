@@ -1,13 +1,23 @@
 import React, { useState } from "react";
-import { TextField, Button, Switch, FormControlLabel } from "@material-ui/core";
 import DadosPessoais from "./DadosPessoais";
+import DadosEntrega from "./DadosEntrega";
 import DadosUsuario from "./DadosUsuario";
 
 function FormularioCadastro({aoEnviar, validarCPF}) {
+  const [etapaAtual, setEtapaAtual] = useState(0);
+  const formularios = [
+  <DadosUsuario aoEnviar={proximo} />, 
+  <DadosPessoais aoEnviar={proximo} validarCPF={validarCPF} />,
+  <DadosEntrega aoEnviar={aoEnviar} />
+  ];
+
+  function proximo (dados) {
+    setEtapaAtual(etapaAtual + 1);
+  }
+  
   return (
     <>
-      <DadosPessoais aoEnviar={aoEnviar} validarCPF={validarCPF} />
-      <DadosUsuario/>
+      {formularios[etapaAtual]}
     </>
   )
 
